@@ -5,9 +5,9 @@ import PhotoblogParser.Downloader.DownloaderToMemory;
 
 import static PhotoblogParser.Config.*;
 
-public class PhotoblogParser {
+class PhotoblogParser {
 
-    public void run() {
+    private void run() {
 
         DownloaderEntry downloader = new DownloaderToMemory();
         String entryURL = BLOG_URL.concat("/" + USERNAME);
