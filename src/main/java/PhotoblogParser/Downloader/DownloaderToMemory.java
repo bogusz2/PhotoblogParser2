@@ -39,7 +39,6 @@ public class DownloaderToMemory implements DownloaderEntry {
         File dateTitlePost = new File(LOCAL_PATH + eNumber + ".txt");
         BufferedWriter bwDateTitlePost = new BufferedWriter(new FileWriter(dateTitlePost));
         bwDateTitlePost.write(date);
-        bwDateTitlePost.close();
         bwDateTitlePost.newLine();
         bwDateTitlePost.write(title);
         bwDateTitlePost.close();
