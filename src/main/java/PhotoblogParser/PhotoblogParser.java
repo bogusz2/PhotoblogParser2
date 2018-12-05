@@ -7,21 +7,27 @@ import static PhotoblogParser.Config.*;
 
 public class PhotoblogParser {
 
+    public void run() {
 
-
-    public static void main(String[] args) {
         DownloaderEntry downloader = new DownloaderToMemory();
-        String lastEntryURL = BLOG_URL.concat("/" + USERNAME);
+        String entryURL = BLOG_URL.concat("/" + USERNAME);
         try {
 
             for (int i = 0; i < NUMBER_OF_POSTS; i++) {
                 LOGGER.debug(Integer.toString(i));
                 String eNumber = String.valueOf(NUMBER_OF_POSTS - i);
-                lastEntryURL = downloader.saveEntry(lastEntryURL, eNumber);
+                entryURL = downloader.saveEntry(entryURL, eNumber);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static void main(String[] args) {
+        PhotoblogParser parser = new PhotoblogParser();
+        parser.run();
+
     }
 
 }

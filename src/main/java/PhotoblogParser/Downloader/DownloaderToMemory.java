@@ -6,7 +6,6 @@ import org.jsoup.nodes.Element;
 
 import java.io.*;
 import java.net.URL;
-import java.util.concurrent.TimeUnit;
 
 import static PhotoblogParser.Config.*;
 
@@ -18,24 +17,21 @@ public class DownloaderToMemory implements DownloaderEntry {
     }
 
 
-    public String saveEntry(String URL, String eNumber) throws IOException, InterruptedException {
+    public String saveEntry(String URL, String eNumber) throws IOException {
 
-            TimeUnit.SECONDS.sleep(1);//todo harcode
-            Document html = Jsoup.connect(URL).get();
+        Document html = Jsoup.connect(URL).timeout(10000).get();
+        saveTitleAndDate(html, eNumber);
+        saveImageAs(html, eNumber);
+        savePhotoNoteAsHTML(html, eNumber);
 
-            saveTitleAndDate(html, eNumber);
-            saveImageAs(html, eNumber);
-            savePhotoNoteAsHTML(html, eNumber);
-
-            return getNextPage(html);
+        return getNextPage(html);
 
     }
 
 
-
-    private void saveTitleAndDate(Document html, String eNumber) throws IOException {
+    private void saveTitleAndDate(Document html, String eNumber) throws IOException {// todo: save date separetly
         String title = getTitle(html, eNumber);
-        String date = html.getElementsByClass("now_date").get(0).html(); // todo: get only date
+        String date = html.getElementsByClass("now_date").get(0).text(); // todo: get only date
         File dateTitlePost = new File(LOCAL_PATH + eNumber + ".txt");
         BufferedWriter bwDateTitlePost = new BufferedWriter(new FileWriter(dateTitlePost));
         bwDateTitlePost.write(date);
