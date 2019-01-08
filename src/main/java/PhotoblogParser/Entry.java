@@ -1,16 +1,14 @@
 package PhotoblogParser;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Transient;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
 @Data
+@Table(name = "post_table")
 public class Entry {
 
   @Lob
@@ -25,6 +23,7 @@ public class Entry {
   private String date;
 
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
   @Lob

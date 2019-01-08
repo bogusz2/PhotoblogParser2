@@ -17,7 +17,7 @@ public class Downloader {
     System.setProperty("http.agent", BROWSER);
   }
 
-  protected String getHTMLPhotoNote(Document html){
+  protected String getHTMLPhotoNote(Document html) {
     return html.getElementById("photo_note").html();
   }
 
@@ -28,6 +28,7 @@ public class Downloader {
     }
     return title;
   }
+
   protected String getDateOfEntry(Document html) {
     return html.getElementsByClass("now_date").get(0).text();
   }
