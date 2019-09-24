@@ -13,37 +13,36 @@ import static PhotoblogParser.Config.TIME_TO_LOAD_PAGE_MS;
 
 public class DownloaderToDB extends Downloader implements DownloaderEntry {
 
-  @Override
-  public String saveEntry(String URL, String eNumber) throws IOException {
+    @Override
+    public String saveEntry(String URL, String eNumber) throws IOException {
 
 
-    Document html = Jsoup.connect(URL).timeout(TIME_TO_LOAD_PAGE_MS).get();
+        Document html = Jsoup.connect(URL).timeout(TIME_TO_LOAD_PAGE_MS).get();
 
-    String title = getTitle(html, eNumber);
-    String HTMLPhotoNote = this.getHTMLPhotoNote(html);
-    String date = getDateOfEntry(html);
+        String title = getTitle(html, eNumber);
+        String HTMLPhotoNote = this.getHTMLPhotoNote(html);
+        String date = getDateOfEntry(html);
 
-    Entry entry = new Entry(title, HTMLPhotoNote, date);
+        Entry entry = new Entry(title, HTMLPhotoNote, date);
 
-    byte[] image = getImgOfEntry(html);
-    entry.setImg(image);
+        byte[] image = getImgOfEntry(html);
+        entry.setImg(image);
 
-    saveInDB(entry);
+        saveInDB(entry);
 
-    return getNextPage(html);
-  }
+        return getNextPage(html);
+    }
 
-  private void saveInDB(Entry entry) {
+    private void saveInDB(Entry entry) {
 
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.blog");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("org.hibernate.blog");
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(entry);
+        entityManager.getTransaction().commit();
+        entityManagerFactory.close();
 
 
-    EntityManager entityManager = entityManagerFactory.createEntityManager();
-    entityManager.getTransaction().begin();
-    entityManager.persist(entry);
-    entityManager.getTransaction().commit();
-    entityManagerFactory.close();
-
-
-  }
+    }
 }

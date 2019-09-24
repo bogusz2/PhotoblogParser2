@@ -8,17 +8,19 @@ import static PhotoblogParser.Config.*;
 
 class PhotoblogParser {
 
-    private void run() {
+    DownloaderEntry downloader = new DownloaderToDB();
+    String userHomeURL = BLOG_URL.concat("/" + USERNAME);
 
-        DownloaderEntry downloader = new DownloaderToDB();
-        String entryURL = BLOG_URL.concat("/" + USERNAME);
+
+    private void run() {
         try {
 
             for (int i = 0; i < NUMBER_OF_POSTS; i++) {
                 LOGGER.info(Integer.toString(i));
                 String eNumber = String.valueOf(NUMBER_OF_POSTS - i);
-                entryURL = downloader.saveEntry(entryURL, eNumber);
+                this.userHomeURL = downloader.saveEntry(this.userHomeURL, eNumber);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
